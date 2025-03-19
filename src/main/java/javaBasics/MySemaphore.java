@@ -3,11 +3,11 @@ package javaBasics;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Semaphore {
+public class MySemaphore {
     private int value;
     private final Queue<MainThread> queue;
 
-    public Semaphore(int value)
+    public MySemaphore(int value)
     {
         this.value = value;
         this.queue = new LinkedList<>();

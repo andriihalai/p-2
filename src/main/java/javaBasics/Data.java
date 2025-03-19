@@ -3,6 +3,7 @@ package javaBasics;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -21,7 +22,8 @@ public class Data {
 
     public static Semaphore consoleSemaphore = new Semaphore(1);
     public static final CyclicBarrier CL1 = new CyclicBarrier(Data.threadCount);
-    private static final CyclicBarrier CL2 = new CyclicBarrier(Data.threadCount);
+    public static final CyclicBarrier CL2 = new CyclicBarrier(Data.threadCount);
+    public static final CyclicBarrier CL3 = new CyclicBarrier(Data.threadCount);
     private static final ReentrantLock L1 = new ReentrantLock();
 
     public static void setN(int N) {
