@@ -1,5 +1,6 @@
 package javaBasics;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -8,20 +9,24 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Data {
     public static final int threadCount = 4;
     public static int N = 0;
-    public static int d;
-    public static int p;
+    public static AtomicInteger d = new AtomicInteger();
+    public static AtomicInteger p = new AtomicInteger();
     public static int[] Z;
     public static int[][] MC;
     public static int[][] MD;
+    public static int[][] MA;
+    public static int[][] MX;
 
-    public static int z;
+    public static AtomicInteger z;
 
     public static Semaphore consoleSemaphore = new Semaphore(1);
     public static final CyclicBarrier CL1 = new CyclicBarrier(Data.threadCount);
+    private static final CyclicBarrier CL2 = new CyclicBarrier(Data.threadCount);
     private static final ReentrantLock L1 = new ReentrantLock();
 
     public static void setN(int N) {
         Data.N = N;
+        Data.MA = new int[N][N];
     }
 
     public static int readScalar() {
@@ -79,19 +84,62 @@ public class Data {
 
     public static void setMinZ(int zi) {
         Data.L1.lock();
-        Data.z = Math.min(Data.z, zi);
-        Data.L1.unlock();
+        try {
+            if (Data.z == null) {
+                Data.z = new AtomicInteger(zi);
+            } else {
+                int min = Math.min(Data.z.get(), zi);
+                Data.z.set(min);
+            }
+        } finally {
+            Data.L1.unlock();
+        }
     }
 
     public static void readD() {
-        Data.d = Data.readScalar();
+        int temp = Data.readScalar();
+        Data.d.set(temp);
     }
 
     public static void readP() {
-        Data.p = Data.readScalar();
+        int temp = Data.readScalar();
+        Data.p.set(temp);
     }
 
     public static void readZ(int n) {
         Data.Z = Data.readVector(n);
+    }
+
+    public static Size getSize(int N, int threadCount, int threadId) {
+        int itemsCount = N / threadCount; // will be rounded to lower number
+        int start = threadId * itemsCount;
+        boolean isLastThread = (threadCount - 1) == threadId;
+        int end = start + itemsCount;
+        if (isLastThread) {
+            int remainingItemsCount = N % threadCount;
+            end += remainingItemsCount;
+        }
+
+        return new Size(start, end);
+    }
+
+    public static int[] getSubArr(int[] arr, int threadCount, int threadId) {
+        Size size = Data.getSize(arr.length, threadCount, threadId);
+        return Arrays.copyOfRange(arr, size.getStart(), size.getEnd());
+    }
+
+    public static void calculateRows(int threadCount, int threadId, int d, int z, int p) {
+        Size size = Data.getSize(Data.N, threadCount, threadId);
+
+        for (int i = size.getStart(); i < size.getEnd(); i++) {
+            int[] res = new int[Data.N];
+            for (int j = 0; j < Data.N; j++) {
+                for (int k = 0; k < Data.N; k++) {
+                    res[j] += Data.MD[k][j] * Data.MC[j][k];
+                }
+                res[j] += z * Data.MX[i][j] * p;
+            }
+            Data.MA[i] = res;
+        }
     }
 }

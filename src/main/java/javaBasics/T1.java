@@ -1,11 +1,10 @@
 package javaBasics;
 
-import java.util.Arrays;
 import java.util.concurrent.BrokenBarrierException;
 
 public class T1 extends MainThread implements Runnable {
-    public T1(String name, int N) {
-        super(name, N);
+    public T1(String name, int N, int threadId) {
+        super(name, N, threadId);
     }
 
     @Override
@@ -22,13 +21,15 @@ public class T1 extends MainThread implements Runnable {
             throw new RuntimeException(e);
         }
 
-        int start = 0;
-        int length = (int) (double) (this.N / 4);
-        int end = start + length;
-        int[] subZ = Arrays.copyOfRange(Data.Z, start, end);
-        int z1 = Data.findMin(subZ);
+        int[] subZ = Data.getSubArr(Data.Z, Data.threadCount, this.threadId);
+        int minZ = Data.findMin(subZ);
+        Data.setMinZ(minZ);
 
-        Data.setMinZ(z1);
+        int d1 = Data.d.get();
+        int z1 = Data.z.get();
+        int p1 = Data.p.get();
+
+        Data.calculateRows(Data.threadCount, this.threadId, d1, z1, p1);
 
         System.out.println("Thread " + this.getName() + " finished");
     }

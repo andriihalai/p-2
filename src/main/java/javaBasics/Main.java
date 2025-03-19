@@ -1,13 +1,15 @@
 package javaBasics;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
-        int N = 10;
+        int N = 3;
         Data.setN(N);
-        Thread t1 = new Thread(new T1("T1", N));
-        Thread t2 = new Thread(new T2("T2", N));
-        Thread t3 = new Thread(new T3("T3", N));
-        Thread t4 = new Thread(new T4("T4", N));
+        Thread t1 = new Thread(new T1("T1", N, 0));
+        Thread t2 = new Thread(new T2("T2", N, 1));
+        Thread t3 = new Thread(new T3("T3", N, 2));
+        Thread t4 = new Thread(new T4("T4", N, 3));
 
         t1.start();
         t2.start();
@@ -19,6 +21,7 @@ public class Main {
             t2.join();
             t3.join();
             t4.join();
+            System.out.println(Arrays.deepToString(Data.MA));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
