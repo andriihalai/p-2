@@ -1,6 +1,7 @@
 package javaBasics;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
@@ -8,6 +9,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Data {
+    private static final Random random = new Random();
+
     public static final int threadCount = 4;
     public static int N = 0;
     public static AtomicInteger d = new AtomicInteger();
@@ -103,8 +106,18 @@ public class Data {
         Data.d.set(temp);
     }
 
+    public static void getRandomD() {
+        int temp = getRandomInt(-1000, 1000);
+        Data.d.set(temp);
+    }
+
     public static void readP() {
         int temp = Data.readScalar();
+        Data.p.set(temp);
+    }
+
+    public static void getRandomP() {
+        int temp = getRandomInt(-1000, 1000);
         Data.p.set(temp);
     }
 
@@ -143,5 +156,27 @@ public class Data {
             }
             Data.MA[i] = res;
         }
+    }
+
+    public static int getRandomInt(int min, int max) {
+        return random.nextInt(max - min + 1) + min;
+    }
+
+    public static int[] getRandomArray(int n, int min, int max) {
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = getRandomInt(min, max);
+        }
+        return arr;
+    }
+
+    public static int[][] getRandomMatrix(int n, int min, int max) {
+        int[][] matrix = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = getRandomInt(min, max);
+            }
+        }
+        return matrix;
     }
 }

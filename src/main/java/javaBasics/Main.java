@@ -1,10 +1,13 @@
 package javaBasics;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        int N = 3;
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter N:");
+        int N = Integer.parseInt(scanner.nextLine());
         Data.setN(N);
         Thread t1 = new Thread(new T1("T1", N, 0));
         Thread t2 = new Thread(new T2("T2", N, 1));
@@ -25,7 +28,5 @@ public class Main {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-        System.out.println("z: " + Data.z);
     }
 }

@@ -11,11 +11,16 @@ public class T2 extends MainThread implements Runnable {
     @Override
     public void run() {
         try {
-            Data.consoleSemaphore.acquire();
-            System.out.println(this.getName() + " Enter MC:");
-            Data.MC = Data.readMatrix(this.N, this.N, this.getName());
-            System.out.println(this.getName() + " Enter MD:");
-            Data.MD = Data.readMatrix(this.N, this.N, this.getName());
+            if (N < 4) {
+                Data.consoleSemaphore.acquire();
+                System.out.println(this.getName() + " Enter MC:");
+                Data.MC = Data.readMatrix(this.N, this.N, this.getName());
+                System.out.println(this.getName() + " Enter MD:");
+                Data.MD = Data.readMatrix(this.N, this.N, this.getName());
+            } else {
+                Data.MC = Data.getRandomMatrix(N, -1000, 1000);
+                Data.MD = Data.getRandomMatrix(N, -1000, 1000);
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {

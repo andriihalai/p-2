@@ -11,9 +11,13 @@ public class T3 extends MainThread implements Runnable {
     @Override
     public void run() {
         try {
-            Data.consoleSemaphore.acquire();
-            System.out.print(this.getName() + " Enter p: ");
-            Data.readP();
+            if (N < 4) {
+                Data.consoleSemaphore.acquire();
+                System.out.print(this.getName() + " Enter p: ");
+                Data.readP();
+            } else {
+                Data.getRandomP();
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {

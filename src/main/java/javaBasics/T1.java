@@ -11,9 +11,13 @@ public class T1 extends MainThread implements Runnable {
     public void run() {
 
         try {
-            Data.consoleSemaphore.acquire();
-            System.out.print(this.getName() + " Enter d: ");
-            Data.readD();
+            if (N < 4) {
+                Data.consoleSemaphore.acquire();
+                System.out.print(this.getName() + " Enter d: ");
+                Data.readD();
+            } else {
+                Data.getRandomD();
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
