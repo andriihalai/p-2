@@ -27,31 +27,41 @@ public class T2 extends MainThread implements Runnable {
             Data.consoleSemaphore.release();
         }
 
+        // Сигнал про закінчення введення даних
         try {
             Data.CL1.await();
         } catch (InterruptedException | BrokenBarrierException e) {
             throw new RuntimeException(e);
         }
 
+        // КД 1
         int[] subZ = Data.getSubArr(Data.Z, Data.threadCount, this.threadId);
         if (subZ.length > 0) {
             int minZ = Data.findMin(subZ);
             Data.setMinZ(minZ);
         }
 
+        // Сигнал про закінчення обчислення zi
         try {
             Data.CL2.await();
         } catch (InterruptedException | BrokenBarrierException e) {
             throw new RuntimeException(e);
         }
 
+        // КД2
         int d2 = Data.d.get();
+
+        // КД3
         int z2 = Data.z.get();
+
+        // КД4
         int p2 = Data.p.get();
 
+        // Обчислення MAh
         Data.calculateRows(Data.threadCount, this.threadId, d2, z2, p2);
 
         try {
+            // Повідомлення про закінчення обчислення MAh
             Data.CL3.await();
         } catch (InterruptedException | BrokenBarrierException e) {
             throw new RuntimeException(e);
