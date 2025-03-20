@@ -9,7 +9,7 @@ public class T1 extends MainThread implements Runnable {
 
     @Override
     public void run() {
-
+        // Введення даних
         try {
             if (N < 4) {
                 Data.consoleSemaphore.acquire();
@@ -40,25 +40,25 @@ public class T1 extends MainThread implements Runnable {
 
         // Сигнал про закінчення обчислення zi
         try {
-            Data.CL2.await();
+            Data.CL1.await();
         } catch (InterruptedException | BrokenBarrierException e) {
             throw new RuntimeException(e);
         }
 
-        int d1;
+        // КД 2
+        int d1 = Data.d.get();
+
+        int z1;
 
         try {
-            // КД2
+            // КД 3
             Data.S2.acquire();
-            d1 = Data.d;
+            z1 = Data.z;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
             Data.S2.release();
         }
-
-        // КД 3
-        int z1 = Data.z.get();
 
         // КД 4
         int p1 = Data.p.get();
@@ -67,7 +67,7 @@ public class T1 extends MainThread implements Runnable {
         Data.calculateRows(Data.threadCount, this.threadId, d1, z1, p1);
         try {
             // Повідомлення про закінчення обчислення MAh
-            Data.CL3.await();
+            Data.CL1.await();
         } catch (InterruptedException | BrokenBarrierException e) {
             throw new RuntimeException(e);
         }

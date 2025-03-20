@@ -13,7 +13,7 @@ public class Data {
 
     public static final int threadCount = 4;
     public static int N = 0;
-    public static int d;
+    public static AtomicInteger d = new AtomicInteger();
     public static AtomicInteger p = new AtomicInteger();
     public static int[] Z;
     public static int[][] MC;
@@ -21,13 +21,11 @@ public class Data {
     public static int[][] MA;
     public static int[][] MX;
 
-    public static AtomicInteger z;
+    public static int z = Integer.MAX_VALUE;
 
     public static final Semaphore consoleSemaphore = new Semaphore(1);
     public static final Semaphore S2 = new Semaphore(1);
     public static final CyclicBarrier CL1 = new CyclicBarrier(Data.threadCount);
-    public static final CyclicBarrier CL2 = new CyclicBarrier(Data.threadCount);
-    public static final CyclicBarrier CL3 = new CyclicBarrier(Data.threadCount);
     private static final ReentrantLock L1 = new ReentrantLock();
 
     public static void setN(int N) {
@@ -90,24 +88,18 @@ public class Data {
 
     public static void setMinZ(int zi) {
         Data.L1.lock();
-        try {
-            if (Data.z == null) {
-                Data.z = new AtomicInteger(zi);
-            } else {
-                int min = Math.min(Data.z.get(), zi);
-                Data.z.set(min);
-            }
-        } finally {
-            Data.L1.unlock();
-        }
+        Data.z = Math.min(Data.z, zi);
+        Data.L1.unlock();
     }
 
     public static void readD() {
-        Data.d = Data.readScalar();
+        int temp = Data.readScalar();
+        Data.d.set(temp);
     }
 
     public static void getRandomD() {
-        Data.d = getRandomInt(-1000, 1000);
+        int temp = getRandomInt(-1000, 1000);
+        Data.d.set(temp);
     }
 
     public static void readP() {
@@ -151,6 +143,8 @@ public class Data {
                 for (int k = 0; k < Data.N; k++) {
                     res[j] += Data.MD[k][j] * Data.MC[j][k];
                 }
+                System.out.println("z = " + z);
+                System.out.println("res[i][j] = " + res[j] + " + " + z * Data.MX[i][j] * p);
                 res[j] += z * Data.MX[i][j] * p;
             }
             Data.MA[i] = res;
