@@ -23,7 +23,7 @@ public class Data {
 
     public static AtomicInteger z;
 
-    public static Semaphore consoleSemaphore = new Semaphore(1);
+    public static final Semaphore consoleSemaphore = new Semaphore(1);
     public static final CyclicBarrier CL1 = new CyclicBarrier(Data.threadCount);
     public static final CyclicBarrier CL2 = new CyclicBarrier(Data.threadCount);
     public static final CyclicBarrier CL3 = new CyclicBarrier(Data.threadCount);

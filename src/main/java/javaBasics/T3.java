@@ -31,10 +31,10 @@ public class T3 extends MainThread implements Runnable {
             throw new RuntimeException(e);
         }
 
-        // КД1
         int[] subZ = Data.getSubArr(Data.Z, Data.threadCount, this.threadId);
         if (subZ.length > 0) {
             int minZ = Data.findMin(subZ);
+            // КД1
             Data.setMinZ(minZ);
         }
 
