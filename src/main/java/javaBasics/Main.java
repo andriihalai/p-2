@@ -34,7 +34,6 @@ public class Main {
             t2.join();
             t3.join();
             t4.join();
-            System.out.println("Result: " + Arrays.deepToString(Data.MA));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

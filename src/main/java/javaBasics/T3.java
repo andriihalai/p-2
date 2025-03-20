@@ -16,8 +16,11 @@ public class T3 extends MainThread implements Runnable {
                 Data.consoleSemaphore.acquire();
                 System.out.print(this.getName() + " Enter p: ");
                 Data.readP();
+                System.out.println(this.getName() + " Enter MC:");
+                Data.MC = Data.readMatrix(this.N, this.N, this.getName());
             } else {
                 Data.getRandomP();
+                Data.MC = Data.getRandomMatrix(N, -1000, 1000);
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

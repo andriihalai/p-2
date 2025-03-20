@@ -1,5 +1,6 @@
 package javaBasics;
 
+import java.util.Arrays;
 import java.util.concurrent.BrokenBarrierException;
 
 public class T1 extends MainThread implements Runnable {
@@ -71,6 +72,8 @@ public class T1 extends MainThread implements Runnable {
         } catch (InterruptedException | BrokenBarrierException e) {
             throw new RuntimeException(e);
         }
+
+        System.out.println("MA: " + Arrays.deepToString(Data.MA));
 
         System.out.println("Thread " + this.getName() + " finished");
     }
