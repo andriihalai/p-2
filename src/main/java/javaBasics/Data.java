@@ -143,8 +143,6 @@ public class Data {
                 for (int k = 0; k < Data.N; k++) {
                     res[j] += Data.MD[k][j] * Data.MC[j][k];
                 }
-                System.out.println("z = " + z);
-                System.out.println("res[i][j] = " + res[j] + " + " + z * Data.MX[i][j] * p);
                 res[j] += z * Data.MX[i][j] * p;
             }
             Data.MA[i] = res;

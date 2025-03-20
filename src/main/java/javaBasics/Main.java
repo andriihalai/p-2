@@ -17,6 +17,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter N:");
         int N = Integer.parseInt(scanner.nextLine());
+        long startTime = System.nanoTime();
         Data.setN(N);
         Thread t1 = new Thread(new T1("T1", N, 0));
         Thread t2 = new Thread(new T2("T2", N, 1));
@@ -33,9 +34,13 @@ public class Main {
             t2.join();
             t3.join();
             t4.join();
-            System.out.println(Arrays.deepToString(Data.MA));
+            System.out.println("Result: " + Arrays.deepToString(Data.MA));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+        System.out.println("Execution Time: " + duration / 1_000_000 + " ms");
     }
 }
