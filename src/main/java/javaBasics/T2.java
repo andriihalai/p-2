@@ -48,8 +48,17 @@ public class T2 extends MainThread implements Runnable {
             throw new RuntimeException(e);
         }
 
-        // КД2
-        int d2 = Data.d.get();
+        int d2;
+
+        try {
+            // КД2
+            Data.S2.acquire();
+            d2 = Data.d;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            Data.S2.release();
+        }
 
         // КД3
         int z2 = Data.z.get();

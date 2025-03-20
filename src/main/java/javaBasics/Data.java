@@ -13,7 +13,7 @@ public class Data {
 
     public static final int threadCount = 4;
     public static int N = 0;
-    public static AtomicInteger d = new AtomicInteger();
+    public static int d;
     public static AtomicInteger p = new AtomicInteger();
     public static int[] Z;
     public static int[][] MC;
@@ -24,6 +24,7 @@ public class Data {
     public static AtomicInteger z;
 
     public static final Semaphore consoleSemaphore = new Semaphore(1);
+    public static final Semaphore S2 = new Semaphore(1);
     public static final CyclicBarrier CL1 = new CyclicBarrier(Data.threadCount);
     public static final CyclicBarrier CL2 = new CyclicBarrier(Data.threadCount);
     public static final CyclicBarrier CL3 = new CyclicBarrier(Data.threadCount);
@@ -102,13 +103,11 @@ public class Data {
     }
 
     public static void readD() {
-        int temp = Data.readScalar();
-        Data.d.set(temp);
+        Data.d = Data.readScalar();
     }
 
     public static void getRandomD() {
-        int temp = getRandomInt(-1000, 1000);
-        Data.d.set(temp);
+        Data.d = getRandomInt(-1000, 1000);
     }
 
     public static void readP() {
