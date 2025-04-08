@@ -26,6 +26,8 @@ public class Data {
     public static final Semaphore consoleSemaphore = new Semaphore(1);
     public static final Semaphore S2 = new Semaphore(1);
     public static final CyclicBarrier CL1 = new CyclicBarrier(Data.threadCount);
+    public static final CyclicBarrier CL2 = new CyclicBarrier(Data.threadCount);
+    public static final CyclicBarrier CL3 = new CyclicBarrier(Data.threadCount);
     private static final ReentrantLock L1 = new ReentrantLock();
 
     public static void setN(int N) {

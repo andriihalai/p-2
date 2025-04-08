@@ -44,7 +44,7 @@ public class T4 extends MainThread implements Runnable {
 
         // Сигнал про закінчення обчислення zi
         try {
-            Data.CL1.await();
+            Data.CL2.await();
         } catch (InterruptedException | BrokenBarrierException e) {
             throw new RuntimeException(e);
         }
@@ -72,7 +72,7 @@ public class T4 extends MainThread implements Runnable {
 
         try {
             // Повідомлення про закінчення обчислення MAh
-            Data.CL1.await();
+            Data.CL3.await();
         } catch (InterruptedException | BrokenBarrierException e) {
             throw new RuntimeException(e);
         }
